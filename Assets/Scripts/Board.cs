@@ -11,11 +11,14 @@ public class Board : MonoBehaviour
     [SerializeField]
     GameObject buttonPrefab;
     List<GameObject> buttons;
+    int connectedElementCount = 0;
+    int matchCount = 0;
 
     public BoardElement[,] boardArray;
     public int boardElementCount = 4;
     public static Board Instance;
-    int connectedElementCount = 0;
+    public delegate void OnMatchCountChange(int matches);
+    public event OnMatchCountChange MatchCountChangedEvent;
 
     void Awake()
     {
@@ -51,6 +54,8 @@ public class Board : MonoBehaviour
         elementSize = Mathf.Min((float)screenWidth, (float)screenHeight) / (float)boardElementCount;
         elementOffset = elementSize / 2;
 
+        matchCount = 0;
+
         boardArray = new BoardElement[boardElementCount, boardElementCount];
         float xCounter = elementOffset;
         float yCounter = elementOffset;
@@ -85,12 +90,11 @@ public class Board : MonoBehaviour
         if (connectedElementCount > 2)
         {
             bool[,] newIsVisited = new bool[boardElementCount, boardElementCount];
+            matchCount += 1;
+            MatchCountChangedEvent(matchCount);
             ResetNeighbours(newIsVisited, indiceX, indiceY);
         }
-        else
-        {
-            Debug.Log(connectedElementCount);
-        }
+
     }
 
     void CheckNeighbours(bool[,] isVisited, int indiceX, int indiceY)
