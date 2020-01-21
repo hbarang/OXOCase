@@ -12,7 +12,23 @@ public class Board : MonoBehaviour
     GameObject buttonPrefab;
     List<GameObject> buttons;
     int connectedElementCount = 0;
-    int matchCount = 0;
+    int _matchCount = 0;
+    public int MatchCount
+    {
+        get
+        {
+            return _matchCount;
+        }
+        set
+        {
+            _matchCount = value;
+            if (MatchCountChangedEvent != null)
+            {
+                MatchCountChangedEvent(value);
+            }
+
+        }
+    }
 
     public BoardElement[,] boardArray;
     public int boardElementCount = 4;
@@ -53,8 +69,7 @@ public class Board : MonoBehaviour
         screenHeight = Screen.height;
         elementSize = Mathf.Min((float)screenWidth, (float)screenHeight) / (float)boardElementCount;
         elementOffset = elementSize / 2;
-
-        matchCount = 0;
+        MatchCount = 0;
 
         boardArray = new BoardElement[boardElementCount, boardElementCount];
         float xCounter = elementOffset;
@@ -90,8 +105,7 @@ public class Board : MonoBehaviour
         if (connectedElementCount > 2)
         {
             bool[,] newIsVisited = new bool[boardElementCount, boardElementCount];
-            matchCount += 1;
-            MatchCountChangedEvent(matchCount);
+            MatchCount += 1;
             ResetNeighbours(newIsVisited, indiceX, indiceY);
         }
 
