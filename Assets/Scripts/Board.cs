@@ -10,9 +10,9 @@ public class Board : MonoBehaviour
     float elementOffset;
     [SerializeField]
     GameObject buttonPrefab;
+    List<GameObject> buttons;
 
     public BoardElement[,] boardArray;
-
     public int boardElementCount = 4;
     public static Board Instance;
     int connectedElementCount = 0;
@@ -27,28 +27,31 @@ public class Board : MonoBehaviour
         {
             Destroy(Instance);
         }
+        buttons = new List<GameObject>();
     }
 
     void Start()
     {
+        SetUpBoard();
+    }
+
+
+    public void SetUpBoard()
+    {
+        if (buttons.Count != 0)
+        {
+            foreach (var item in buttons)
+            {
+                Destroy(item);
+            }
+        }
+
         screenWidth = Screen.width;
         screenHeight = Screen.height;
         elementSize = Mathf.Min((float)screenWidth, (float)screenHeight) / (float)boardElementCount;
         elementOffset = elementSize / 2;
 
         boardArray = new BoardElement[boardElementCount, boardElementCount];
-
-        SetUpBoard();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
-    void SetUpBoard()
-    {
         float xCounter = elementOffset;
         float yCounter = elementOffset;
         GameObject button;
@@ -58,6 +61,7 @@ public class Board : MonoBehaviour
             for (int indexX = 0; indexX < boardElementCount; indexX++)
             {
                 button = Instantiate(buttonPrefab);
+                buttons.Add(button);
                 button.GetComponent<BoardElement>().SetIndices(indexX, indexY);
                 boardArray[indexX, indexY] = button.GetComponent<BoardElement>();
 
