@@ -7,8 +7,7 @@ public class BoardElement : MonoBehaviour
     int indiceX, indiceY;
     Image buttonImage;
     public bool clicked = false;
-
-    public Text Count;
+    
     [SerializeField]
     Sprite clickedSprite, nonClickedSprite;
 

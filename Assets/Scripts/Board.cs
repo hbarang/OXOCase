@@ -137,19 +137,6 @@ public class Board : MonoBehaviour
         ResetNeighbours(isVisited, indiceX, indiceY + 1);
         ResetNeighbours(isVisited, indiceX, indiceY - 1);
     }
-    List<BoardElement> GetNeighbours(int indiceX, int indiceY)
-    {
-        List<BoardElement> neighbourList = new List<BoardElement>();
-        foreach (var boardElementIndice in Utility.neigbourIndices)
-        {
-            int x = indiceX + boardElementIndice.x;
-            int y = indiceY + boardElementIndice.y;
-            if ((x >= 0 && x < Board.Instance.boardElementCount) && (y >= 0 && y < Board.Instance.boardElementCount))
-                neighbourList.Add(Board.Instance.boardArray[x, y]);
 
-        }
-        return neighbourList;
-
-    }
 
 }
